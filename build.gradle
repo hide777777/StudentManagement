@@ -12,6 +12,12 @@ java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
+
+	configurations {
+		compileOnly{
+			extendsFrom annotationProcessor
+		}
+	}
 }
 
 repositories {
@@ -20,6 +26,9 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// Lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 	// MySQLドライバ
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	// MyBatis
