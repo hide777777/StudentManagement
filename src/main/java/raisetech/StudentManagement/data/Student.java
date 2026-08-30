@@ -10,10 +10,12 @@ public class Student {
   private String id;
   private String name;
   private String kanaName;
-  private String nichname;
+  private String nickname;
   private String email;
+  private String telephone;  // 電話番号
   private String area;
   private int age;
   private String sex;
-
+  private String remark;
+  private boolean isDeleted;
 }
