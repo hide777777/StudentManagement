@@ -7,7 +7,11 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
@@ -39,6 +43,42 @@ import raisetech.StudentManagement.service.StudentService;
     @GetMapping("/studentCoursesList")
     public List<StudentCourses> getStudentCoursesList() {
       return service.searchStudentCoursesList();
+    }
+
+    @GetMapping("/newStudent")
+    public String newStudent(Model model) {
+      StudentDetail studentDetail = new StudentDetail();
+      studentDetail.setStudent(new Student());
+
+      List<StudentCourses> studentsCourses = new ArrayList<>();
+      studentsCourses.add(new StudentCourses());
+      studentDetail.setStudentsCourses(studentsCourses);
+
+      model.addAttribute("studentDetail", studentDetail);
+      return "registerStudent";
+    }
+    @PostMapping("/registerStudent")
+    public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
+      if (result.hasErrors()){
+        return "registerStudent";
+      }
+      // ①新規受講生情報を登録する処理を実装する。
+      service.registerStudent(studentDetail);
+      // ②コース情報も一緒に登録できるように実装する。コースは単体で良い。
+      return "redirect:/studentList";
+    }
+
+    @GetMapping("/student/{id}")
+    public String getStudent(@PathVariable String id, Model model) {
+      model.addAttribute("studentDetail",
+          service.searchStudent(id));
+      return "updateStudent";
+    }
+
+    @PostMapping("/updateStudent")
+    public String updateStudent(@ModelAttribute StudentDetail studentDetail) {
+      service.updateStudent(studentDetail);
+      return "redirect:/studentList";
     }
 
   }

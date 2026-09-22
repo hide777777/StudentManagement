@@ -1,10 +1,13 @@
 package raisetech.StudentManagement.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourses;
+import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.repository.StudentRepository;
 import java.util.ArrayList;
 
@@ -20,33 +23,37 @@ public class StudentService {
   }
 
   public List<Student> searchStudentList() {
-//    List<Student> allStudents = repository.searchStudent();
-//    List<Student> result = new ArrayList<>();
-//
-//    for (Student student : allStudents) {
-//      if (student.getAge() >= 30 && student.getAge() < 40) {
-//        result.add(student);
-//      }
-//    }
-//    return result;
-//    repository.serch30-39();
-//    if serch30-39 age>30;
-//    else serch30-39 age<40;
-//    plintln(serch30-39);
-//
     return repository.searchStudent();
   }
 
   public List<StudentCourses> searchStudentCoursesList() {
-//    List<StudentCourses> allCourses = repository.searchStudentCourses();
-//    List<StudentCourses> result = new ArrayList<>();
-//
-//    for (StudentCourses course : allCourses) {
-//      if (course.getCourseName().equals("Javaコース")) {
-//        result.add(course);
-//      }
-//    }
-//    return result;
     return repository.searchStudentCourses();
+  }
+
+  @Transactional
+  public void registerStudent(StudentDetail studentDetail) {
+    repository.registerStudent(studentDetail.getStudent());
+    for (StudentCourses studentsCourses : studentDetail.getStudentsCourses()){
+      studentsCourses.setStudentId(studentDetail.getStudent().getId());
+      studentsCourses.setStartDate(LocalDateTime.now());
+      studentsCourses.setEndDate(LocalDateTime.now().plusYears(1));
+      repository.registerStudentCourses(studentsCourses);
+    }
+  }
+
+  public StudentDetail searchStudent(String id) {
+    Student student = repository.searchStudentById(id);
+    List<StudentCourses> studentsCourses =
+  repository.searchStudentCoursesByStudentId(id);
+
+    StudentDetail studentDetail = new StudentDetail();
+    studentDetail.setStudent(student);
+    studentDetail.setStudentsCourses(studentsCourses);
+    return studentDetail;
+  }
+
+  @Transactional
+  public void updateStudent(StudentDetail studentDetail) {
+    repository.updateStudent(studentDetail.getStudent());
   }
 }
