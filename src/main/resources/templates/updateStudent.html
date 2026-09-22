@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>受講生登録</title>
+  <meta charset="UTF-8">
+  <title>受講生更新</title>
 </head>
 <body>
-<h1>受講生登録</h1>
-<form th:action="@{/registerStudent}" th:object="${studentDetail}" method="post">
+<h1>受講生更新</h1>
+<form th:action="@{/updateStudent}" th:object="${studentDetail}" method="post">
   <div>
     <label for="id">ID:</label>
-    <input type="text" id="id" th:field="*{student.id}" required />
+    <input type="text" id="id" th:field="*{student.id}" readonly />
   </div>
   <div>
     <label for="name">名前:</label>
@@ -23,14 +24,14 @@
     <input type="text" id="nickname" th:field="*{student.nickname}" required />
   </div>
   <div>
-  <div>
     <label for="email">メールアドレス:</label>
-    <input type="text" id="email" th:field="*{student.email}" required />
+    <input type="text" id="email" th:field="*{student.email}" required/>
   </div>
   <div>
     <label for="telephone">電話番号:</label>
-    <input type="text" id="telephone" th:field="*{student.telephone}" required />
+    <input type="text" id="telephone" th:field="*{student.telephone}" required/>
   </div>
+  <div>
     <label for="area">地域:</label>
     <input type="text" id="area" th:field="*{student.area}" required />
   </div>
@@ -46,13 +47,16 @@
     <label for="remark">備考:</label>
     <input type="text" id="remark" th:field="*{student.remark}" />
   </div>
+
   <div>
     <label for="courseName">コース名:</label>
     <input type="text" id="courseName" th:field="*{studentsCourses[0].courseName}" required />
   </div>
+
   <div>
-    <button type="submit">登録</button>
+    <button type="submit">更新</button>
   </div>
 </form>
 </body>
 </html>
+
