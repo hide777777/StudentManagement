@@ -40,10 +40,12 @@ import raisetech.StudentManagement.service.StudentService;
       return "studentList";
     }
 
-    @GetMapping("/studentCoursesList")
-    public List<StudentCourses> getStudentCoursesList() {
-      return service.searchStudentCoursesList();
-    }
+  @GetMapping("/student/{id}")
+  public String getStudent(@PathVariable String id, Model model) {
+    model.addAttribute("studentDetail",
+        service.searchStudent(id));
+    return "updateStudent";
+  }
 
     @GetMapping("/newStudent")
     public String newStudent(Model model) {
@@ -68,15 +70,13 @@ import raisetech.StudentManagement.service.StudentService;
       return "redirect:/studentList";
     }
 
-    @GetMapping("/student/{id}")
-    public String getStudent(@PathVariable String id, Model model) {
-      model.addAttribute("studentDetail",
-          service.searchStudent(id));
-      return "updateStudent";
-    }
+
 
     @PostMapping("/updateStudent")
-    public String updateStudent(@ModelAttribute StudentDetail studentDetail) {
+    public String updateStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
+      if (result.hasErrors()) {
+        return "updateStudent";
+      }
       service.updateStudent(studentDetail);
       return "redirect:/studentList";
     }
