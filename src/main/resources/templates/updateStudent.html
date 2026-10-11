@@ -55,10 +55,14 @@
     <label for="courseName">コース名:</label>
     <input type="text" id="courseName" th:field="*{studentsCourses[0].courseName}" required />
   </div>
-
+  <div>
+    <label for="deleted">キャンセル</label>
+    <input type="checkbox" id="deleted" th:field="*{student.deleted}"/>
+  </div>
   <div>
     <button type="submit">更新</button>
   </div>
+
 </form>
 </body>
 </html>

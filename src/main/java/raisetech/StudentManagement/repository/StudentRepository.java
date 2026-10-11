@@ -24,7 +24,7 @@ public interface StudentRepository {
    * @return 全件検索した受講生情報の一覧
    */
 
-  @Select("SELECT * FROM students")
+  @Select("SELECT * FROM students WHERE deleted = false")
   List<Student> search();
 
   @Select("SELECT * FROM students WHERE id = #{id}")
@@ -56,7 +56,8 @@ public interface StudentRepository {
   List<StudentCourses> searchStudentCoursesByStudentId(String studentId);
 
   @Update("UPDATE students SET name=#{name},kana_name=#{kanaName},nickname=#{nickname}, "
-    + "email=#{email}, area=#{area}, age=#{age}, sex=#{sex}, remark=#{remark}, telephone=#{telephone} "
+    + "email=#{email}, area=#{area}, age=#{age}, sex=#{sex}, remark=#{remark}, telephone=#{telephone},"
+    + "deleted=#{deleted} "
     + "WHERE id=#{id}")
   void updateStudent(Student student);
 
