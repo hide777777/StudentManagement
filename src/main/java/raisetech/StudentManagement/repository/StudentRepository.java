@@ -24,17 +24,23 @@ public interface StudentRepository {
    * @return 全件検索した受講生情報の一覧
    */
 
-  @Select("SELECT * FROM students")
-  List<Student> searchStudent();
+  @Select("SELECT * FROM students WHERE deleted = false")
+  List<Student> search();
+
+  @Select("SELECT * FROM students WHERE id = #{id}")
+  Student searchStudent(String id);
 
   @Select("SELECT * FROM students_courses")
-  List<StudentCourses> searchStudentCourses();
+  List<StudentCourses>searchStudentsCoursesList();
 
+  @Select("SELECT * FROM students_courses WHERE student_id = #{studentId}")
+  List<StudentCourses> searchStudentCourses(String studentId);
 
   //@Options(useGeneratedKeys = true, keyProperty = "id")
 
-  @Insert("INSERT INTO students(name, kana_name, nickname, email, area, age, sex, remark, deleted) "
-      + "VALUES (#{name}, #{kanaName}, #{nickname}, #{email}, #{area}, #{age}, #{sex}, #{remark}, false)")
+  @Insert(
+      "INSERT INTO students(name, kana_name, nickname, email, area, age, sex, remark, deleted) "
+        + "VALUES (#{name}, #{kanaName}, #{nickname}, #{email}, #{area}, #{age}, #{sex}, #{remark}, false)")
 
   @Options(useGeneratedKeys = true, keyProperty = "id")
   void registerStudent(Student student);
@@ -50,7 +56,11 @@ public interface StudentRepository {
   List<StudentCourses> searchStudentCoursesByStudentId(String studentId);
 
   @Update("UPDATE students SET name=#{name},kana_name=#{kanaName},nickname=#{nickname}, "
-    + "email=#{email}, area=#{area}, age=#{age}, sex=#{sex}, remark=#{remark}, telephone=#{telephone} "
+    + "email=#{email}, area=#{area}, age=#{age}, sex=#{sex}, remark=#{remark}, telephone=#{telephone},"
+    + "deleted=#{deleted} "
     + "WHERE id=#{id}")
   void updateStudent(Student student);
+
+  @Update("UPDATE students_courses SET course_name = #{courseName} WHERE id =#{id}")
+  void updateStudentsCourses(StudentCourses studentsCourses);
 }
