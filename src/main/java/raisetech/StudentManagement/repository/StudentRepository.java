@@ -24,7 +24,7 @@ public interface StudentRepository {
    * @return 全件検索した受講生情報の一覧
    */
 
-  @Select("SELECT * FROM students WHERE deleted = false")
+  @Select("SELECT * FROM students")
   List<Student> search();
 
   @Select("SELECT * FROM students WHERE id = #{id}")
