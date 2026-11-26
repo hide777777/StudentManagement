@@ -1,5 +1,6 @@
 package raisetech.StudentManagement.service;
 
+import io.swagger.v3.oas.annotations.Operation;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +89,7 @@ public class StudentService {
    *
    * @param studentDetail 受講生詳細
    */
+
   @Transactional
   public void updateStudent(StudentDetail studentDetail) {
     repository.updateStudent(studentDetail.getStudent());

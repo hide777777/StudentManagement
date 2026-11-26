@@ -1,5 +1,6 @@
 package raisetech.StudentManagement.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -50,7 +51,7 @@ import raisetech.StudentManagement.service.StudentService;
    *
    * @return 受講生詳細一覧（全件）
    */
-
+  @Operation(summary = "受講生一覧", description = "受講生の一覧を表示します。")
   @GetMapping("/studentList")
   public List<StudentDetail> getStudentList() throws TestException {
     throw new TestException(
@@ -63,6 +64,7 @@ import raisetech.StudentManagement.service.StudentService;
    * @param id 受講生ID
    * @return 受講生
    */
+  @Operation(summary = "受講生検索", description = "IDに紐づく受講生の詳細を検索します。")
   @GetMapping("/student/{id}")
   public StudentDetail getStudent(
       @PathVariable @NotBlank @Pattern(regexp = "^\\d+$") String id) {
@@ -75,6 +77,7 @@ import raisetech.StudentManagement.service.StudentService;
    * @param studentDetail 受講生詳細
    * @return 実行結果
    */
+  @Operation(summary = "受講生登録", description = "受講生を登録します。")
   @PostMapping("/registerStudent")
   public ResponseEntity<StudentDetail> registerStudent(
       @RequestBody @Valid StudentDetail studentDetail) {
@@ -90,6 +93,7 @@ import raisetech.StudentManagement.service.StudentService;
    * @param studentDetail 受講生詳細
    * @return 実行結果
    */
+  @Operation(summary = "受講生更新", description = "受講生の更新をします。")
   @PutMapping("/updateStudent")
   public ResponseEntity<String> updateStudent(@RequestBody @Valid StudentDetail studentDetail) {
     service.updateStudent(studentDetail);
